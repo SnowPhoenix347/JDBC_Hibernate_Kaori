@@ -3,17 +3,18 @@ package jm.task.core.jdbc.util;
 import jm.task.core.jdbc.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
+    public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static Connection connection;
-    private static final String password = "pass";
-    private static final String user = "root";
-    public static final String JDBC_URL = ("jdbc:mysql://localhost/kaoridb?" +
-            "user=" + user + "&password=" + password);
+    private static final String PASSWORD = "pass";
+    private static final String USER = "root";
+    private static final String URL_DB = "jdbc:mysql://localhost/kaoridb?";
+    private static final String JDBC_URL = ("jdbc:mysql://localhost/kaoridb?" +
+                                            "user=" + USER + "&password=" + PASSWORD);
 
     public static Connection getConnection() {
         if (connection != null) {
@@ -21,13 +22,13 @@ public class Util {
         }
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(DRIVER).getDeclaredConstructor().newInstance();
         } catch (ReflectiveOperationException ex) {
             System.err.println("ReflectiveOperationException: " + ex.getMessage());
         }
 
         try {
-            connection = DriverManager.getConnection(JDBC_URL);
+            connection = DriverManager.getConnection(URL_DB, USER, PASSWORD);
             return connection;
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
