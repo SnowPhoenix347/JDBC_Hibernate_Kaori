@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
+    public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static Connection connection;
-    private static final String password = "pass";
-    private static final String user = "root";
+    private static final String PASSWORD = "pass";
+    private static final String USER = "root";
+    private static final String URL_DB = "jdbc:mysql://localhost/kaoridb?";
 
     public static Connection getConnection() {
         if (connection != null) {
@@ -15,14 +17,13 @@ public class Util {
         }
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(DRIVER).getDeclaredConstructor().newInstance();
         } catch (ReflectiveOperationException ex) {
             System.err.println("ReflectiveOperationException: " + ex.getMessage());
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/kaoridb?" +
-                    "user=" + user + "&password=" + password);
+            connection = DriverManager.getConnection(URL_DB, USER, PASSWORD);
             return connection;
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
